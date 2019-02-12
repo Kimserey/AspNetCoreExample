@@ -2,9 +2,11 @@
 
 open Microsoft.AspNetCore.Mvc
 open System
+open System.ComponentModel.DataAnnotations
 
 type Todo =
     {
+        [<Required>]
         title: string
         content: string
     }
@@ -22,6 +24,5 @@ type TodoController() =
         "Hello"
 
     [<HttpPost("{id}")>]
-    member ctrl.Post(id: string, [<FromHeader>]test: string, [<FromBody>]todo: Todo) =
-        Console.WriteLine (sprintf "%A" ctrl.HttpContext.Request.Method)
+    member ctrl.Post(id: string, [<FromHeader>]content: string, [<FromQuery>]test: string, todo: Todo) =
         "Hello"
