@@ -7,19 +7,6 @@ open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Mvc
 
-[<ApiController>]
-[<Route("/api/todos")>]
-type TodoController() =
-    inherit ControllerBase()
-
-    [<HttpGet>]
-    member __.GetAll() = [ "Hello World"; "Bye bye" ]
-
-    [<HttpGet("{id}")>]
-    member __.Get(id: string) =
-        "Hello"
-
-
 type Startup() =
 
     member this.ConfigureServices(services: IServiceCollection) =
