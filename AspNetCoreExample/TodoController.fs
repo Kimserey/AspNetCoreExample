@@ -1,6 +1,7 @@
 ﻿namespace AspNetCoreExample
 
 open Microsoft.AspNetCore.Mvc
+open System
 
 type Todo =
     {
@@ -21,5 +22,6 @@ type TodoController() =
         "Hello"
 
     [<HttpPost("{id}")>]
-    member __.Post(id: string, todo: Todo) =
+    member ctrl.Post(id: string, [<FromHeader>]test: string, [<FromBody>]todo: Todo) =
+        Console.WriteLine (sprintf "%A" ctrl.HttpContext.Request.Method)
         "Hello"
