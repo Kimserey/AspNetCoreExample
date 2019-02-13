@@ -7,10 +7,12 @@ open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Mvc
 open Swashbuckle.AspNetCore.Swagger
+open Microsoft.Extensions.Configuration
 
-type Startup() =
+type Startup(configuration: IConfiguration) =
 
     member this.ConfigureServices(services: IServiceCollection) =
+
         services.AddMvc()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
             |> ignore

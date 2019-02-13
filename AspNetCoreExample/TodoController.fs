@@ -3,6 +3,8 @@
 open Microsoft.AspNetCore.Mvc
 open System
 open System.ComponentModel.DataAnnotations
+open Microsoft.Extensions.Configuration
+open Microsoft.Extensions.Options
 
 type Todo =
     {
@@ -11,13 +13,22 @@ type Todo =
         content: string
     }
 
+[<CLIMutable>]
+type Person =
+    {
+        name: string
+        age: int
+    }
+
 [<ApiController>]
 [<Route("/api/todos")>]
-type TodoController() =
+type TodoController(config: IConfiguration) =
     inherit ControllerBase()
 
     [<HttpGet>]
-    member __.GetAll() = [ "Hello World"; "Bye bye" ]
+    member __.GetAll() =
+        let x = config.GetValue("configuration1")
+        [ x; "Bye bye" ]
 
     [<HttpGet("{id}")>]
     member __.Get(id: string) =
