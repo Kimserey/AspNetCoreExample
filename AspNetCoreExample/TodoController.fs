@@ -5,6 +5,7 @@ open System
 open System.ComponentModel.DataAnnotations
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Options
+open Microsoft.Extensions.Logging
 
 type Todo =
     {
@@ -20,14 +21,20 @@ type Person =
         age: int
     }
 
+
 [<ApiController>]
 [<Route("/api/todos")>]
-type TodoController(config: IConfiguration) =
+type TodoController(config: IConfiguration, logger: ILogger<TodoController>) =
     inherit ControllerBase()
 
     [<HttpGet>]
     member __.GetAll() =
-        let x = config.GetValue("configuration1")
+        let x: string = config.GetValue("configuration1")
+
+        logger.LogWarning("This is my configuration {hello}", x)
+
+        // { "template": "This is my configuration {x}"; "hello": "hello world" }
+
         [ x; "Bye bye" ]
 
     [<HttpGet("{id}")>]
