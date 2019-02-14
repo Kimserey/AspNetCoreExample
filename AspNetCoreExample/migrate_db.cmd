@@ -1,0 +1,1 @@
+c:\Tools\flyway_5.1.3\flyway.cmd migrate -url="jdbc:sqlite:data.db" -locations="filesystem:../sql" -n

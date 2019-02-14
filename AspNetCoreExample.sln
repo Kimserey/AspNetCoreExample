@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AspNetCoreExample", "AspNetCoreExample\AspNetCoreExample.fsproj", "{40F02BBA-ABEB-49DA-B964-7F4BF382A9E7}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "AspNetCoreExample", "AspNetCoreExample\AspNetCoreExample.fsproj", "{40F02BBA-ABEB-49DA-B964-7F4BF382A9E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{78682C31-73D2-4953-A590-7BF4FD64B617}"
+	ProjectSection(SolutionItems) = preProject
+		sql\V1__Create_Todos_Table.sql = sql\V1__Create_Todos_Table.sql
+		sql\V2__Uppercase_Titles.sql = sql\V2__Uppercase_Titles.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

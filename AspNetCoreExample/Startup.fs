@@ -8,6 +8,7 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Mvc
 open Swashbuckle.AspNetCore.Swagger
 open Microsoft.Extensions.Configuration
+open System.Data.SQLite
 
 type Startup(configuration: IConfiguration) =
 
@@ -20,6 +21,11 @@ type Startup(configuration: IConfiguration) =
         services.AddSwaggerGen(fun c ->
             c.SwaggerDoc("v1", Info(Title = "My API", Version = "v1"))
             |> ignore)
+        |> ignore
+
+        services.AddTransient<SQLiteConnection>(fun sp ->
+            new SQLiteConnection("Data Source=data.db")
+        )
         |> ignore
 
 

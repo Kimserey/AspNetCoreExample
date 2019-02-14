@@ -6,41 +6,73 @@ open System.ComponentModel.DataAnnotations
 open Microsoft.Extensions.Configuration
 open Microsoft.Extensions.Options
 open Microsoft.Extensions.Logging
+open System.Data.SQLite
+open Dapper
+open System.Collections.Generic
+
+[<AutoOpen>]
+module Dynamic =
+
+    open System.Dynamic
+
+    let pack (fields: #seq<string * obj>) =
+        let expando = ExpandoObject()
+        let expandoDictionary = expando :> IDictionary<string,obj>
+
+        for (key, value) in fields do
+            expandoDictionary.Add(key, value)
+
+        expando
+
+    [<AutoOpen>]
+    module Operators =
+
+        let (.=) (key: string) (value: 'a) =
+            (key, box value)
+
+        let (!@) fields = pack fields
 
 type Todo =
     {
+        [<Key>]
+        id: string
         [<Required>]
         title: string
+        [<Required>]
         content: string
     }
 
-[<CLIMutable>]
-type Person =
-    {
-        name: string
-        age: int
-    }
-
-
 [<ApiController>]
 [<Route("/api/todos")>]
-type TodoController(config: IConfiguration, logger: ILogger<TodoController>) =
+type TodoController(logger: ILogger<TodoController>, conn: SQLiteConnection) =
     inherit ControllerBase()
 
     [<HttpGet>]
     member __.GetAll() =
-        let x: string = config.GetValue("configuration1")
-
-        logger.LogWarning("This is my configuration {hello}", x)
-
-        // { "template": "This is my configuration {x}"; "hello": "hello world" }
-
-        [ x; "Bye bye" ]
+        conn.QueryAsync("""
+            SELECT *
+            FROM [todos]
+        """)
 
     [<HttpGet("{id}")>]
     member __.Get(id: string) =
-        "Hello"
+        conn.QueryAsync(
+            """SELECT *
+               FROM [todos] as td
+               WHERE td.[id] = @id""",
+               !@ [
+                "id" .= id
+                "title" .= "hello"
+                ])
 
-    [<HttpPost("{id}")>]
-    member ctrl.Post(id: string, [<FromHeader>]content: string, [<FromQuery>]test: string, todo: Todo) =
-        "Hello"
+    [<HttpPost>]
+    member ctrl.Post(todo: Todo) =
+        conn.ExecuteAsync(
+            """INSERT INTO [todos]
+                           ([id]
+                           ,[title]
+                           ,[content])
+                VALUES (@id
+                       ,@title
+                       ,@content)""",
+            box todo)

@@ -5,15 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="migrate_db.cmd" />
     <Compile Include="TodoController.fs" />
     <Compile Include="Startup.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
+  <ItemGroup />
+
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
   </ItemGroup>
 
   <ItemGroup>
