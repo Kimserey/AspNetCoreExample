@@ -9,6 +9,7 @@ open Microsoft.Extensions.Logging
 open System.Data.SQLite
 open Dapper
 open System.Collections.Generic
+open System.Net.Http
 
 [<AutoOpen>]
 module Dynamic =
@@ -44,8 +45,18 @@ type Todo =
 
 [<ApiController>]
 [<Route("/api/todos")>]
-type TodoController(logger: ILogger<TodoController>, conn: SQLiteConnection) =
+type TodoController(logger: ILogger<TodoController>, conn: SQLiteConnection, factory: IHttpClientFactory) =
     inherit ControllerBase()
+
+    [<HttpGet("/dummy")>]
+    member __.CallDummy() =
+        let client = factory.CreateClient()
+
+        async {
+            let! response = client.GetAsync("http://localhost:5500/api") |> Async.AwaitTask
+            let! result = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+            return result
+        } |> Async.StartAsTask
 
     [<HttpGet>]
     member __.GetAll() =

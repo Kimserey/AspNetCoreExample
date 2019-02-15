@@ -13,6 +13,8 @@ open System.Data.SQLite
 type Startup(configuration: IConfiguration) =
 
     member this.ConfigureServices(services: IServiceCollection) =
+        services.AddHttpClient()
+        |> ignore
 
         services.AddMvc()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
