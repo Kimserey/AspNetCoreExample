@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{78682C31-73D
 		sql\V2__Uppercase_Titles.sql = sql\V2__Uppercase_Titles.sql
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DummyService", "DummyService\DummyService.fsproj", "{114F1E07-652D-4989-8A27-FCB7D91A8442}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{40F02BBA-ABEB-49DA-B964-7F4BF382A9E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40F02BBA-ABEB-49DA-B964-7F4BF382A9E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40F02BBA-ABEB-49DA-B964-7F4BF382A9E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114F1E07-652D-4989-8A27-FCB7D91A8442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114F1E07-652D-4989-8A27-FCB7D91A8442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114F1E07-652D-4989-8A27-FCB7D91A8442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114F1E07-652D-4989-8A27-FCB7D91A8442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
