@@ -45,18 +45,13 @@ type Todo =
 
 [<ApiController>]
 [<Route("/api/todos")>]
-type TodoController(logger: ILogger<TodoController>, conn: SQLiteConnection, factory: IHttpClientFactory) =
+type TodoController(logger: ILogger<TodoController>, conn: SQLiteConnection, service: DummyService) =
     inherit ControllerBase()
 
     [<HttpGet("/dummy")>]
     member __.CallDummy() =
-        let client = factory.CreateClient()
-
-        async {
-            let! response = client.GetAsync("http://localhost:5500/api") |> Async.AwaitTask
-            let! result = response.Content.ReadAsStringAsync() |> Async.AwaitTask
-            return result
-        } |> Async.StartAsTask
+        service.Get()
+        |> Async.StartAsTask
 
     [<HttpGet>]
     member __.GetAll() =

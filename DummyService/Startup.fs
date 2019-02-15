@@ -7,6 +7,10 @@ open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Mvc
 
+module Counter =
+
+    let mutable value = 0
+
 [<Route("api")>]
 [<ApiController>]
 type DummyController() =
@@ -14,6 +18,11 @@ type DummyController() =
 
     [<HttpGet>]
     member __.Get() =
+        Counter.value <- Counter.value + 1
+
+        if Counter.value < 3 then
+            failwith "not working"
+
         "Dummy is working!"
 
 type Startup() =

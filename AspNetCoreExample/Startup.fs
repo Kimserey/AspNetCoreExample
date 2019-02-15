@@ -3,22 +3,28 @@ namespace AspNetCoreExample
 open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
-open Microsoft.AspNetCore.Http
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.AspNetCore.Mvc
 open Swashbuckle.AspNetCore.Swagger
 open Microsoft.Extensions.Configuration
 open System.Data.SQLite
+open Polly
+open System.Net.Http
 
 type Startup(configuration: IConfiguration) =
 
     member this.ConfigureServices(services: IServiceCollection) =
-        services.AddHttpClient()
+        let policy (p: PolicyBuilder<HttpResponseMessage>)  =
+            p.WaitAndRetryAsync(3, fun _ -> TimeSpan.FromMilliseconds(600.)) :> IAsyncPolicy<HttpResponseMessage>
+
+        services
+            .AddHttpClient<DummyService>()
+            .AddTransientHttpErrorPolicy(new Func<_, _>(policy))
         |> ignore
 
         services.AddMvc()
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-            |> ignore
+        |> ignore
 
         services.AddSwaggerGen(fun c ->
             c.SwaggerDoc("v1", Info(Title = "My API", Version = "v1"))
